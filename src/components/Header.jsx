@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { useContext } from 'react'
+import { ProductsContext } from '../store/stored_products_context';
 
-export default function Header({categories, filter, onCategoryChange}) {
+export default function Header() {
+  const { filterByType, selectedFilter } = useContext(ProductsContext);
   const handleChange = (event) => {
-    onCategoryChange(event.target.value);
+    filterByType(event.target.value);
   };
-
+  const { products } = useContext(ProductsContext);
+  const categories=[...new Set(products.map((product) => product.type))];
+  
   return (
     <>
       <header id="main-header">
@@ -15,7 +19,7 @@ export default function Header({categories, filter, onCategoryChange}) {
         <p>
           <span>
         <label htmlFor="categorySelect">Select a category:</label>
-        <select className="custom-select" id="categorySelect" value={filter} onChange={handleChange}>
+        <select className="custom-select" id="categorySelect" value={selectedFilter} onChange={handleChange}>
           <option value="">All Categories</option>
           {categories.map((category) => (
             <option key={category} value={category}>

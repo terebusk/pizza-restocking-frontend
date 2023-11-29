@@ -1,7 +1,7 @@
-export default function EditProduct({ product, onChange }) {
+export default function EditProduct({ product, onModalUpdate }) {
 
     function onChangeHandler(event, inputIdentifier) {
-        onChange(inputIdentifier, event.target.value);
+        onModalUpdate(inputIdentifier, event.target.value);
     }
 
     return (

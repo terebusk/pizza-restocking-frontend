@@ -1,10 +1,7 @@
 import { useState } from 'react'
 
-export default function Header({categories, onCategoryChange}) {
-  const [filter, setFilter] = useState('');
-
+export default function Header({categories, filter, onCategoryChange}) {
   const handleChange = (event) => {
-    setFilter(event.target.value);
     onCategoryChange(event.target.value);
   };
 

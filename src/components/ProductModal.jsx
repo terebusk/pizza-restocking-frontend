@@ -1,7 +1,8 @@
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import EditProduct from './EditProduct';
 
-const ProductModal = forwardRef(function Modal({ product, onSave }, ref) {
+const ProductModal = forwardRef(function Modal({ product, onSave, onChange }, ref) {
   const dialog = useRef();
 
   useImperativeHandle(ref, () => {
@@ -12,30 +13,16 @@ const ProductModal = forwardRef(function Modal({ product, onSave }, ref) {
     };
   });
 
-  const [inputState, setInputState] = useState({ ...product } || {});
-
-  function handleChange(inputIdentifier, newValue) {
-    setInputState((prevState) => {
-      return {
-        ...prevState,
-        [inputIdentifier]: newValue
-      }
-    });
-  }
-
   return createPortal(
     <dialog id="modal" ref={dialog}>
-      <h2>{product.title}</h2>
-      <label>Title</label>
-      <input onChange={(event) => {handleChange('title', event.target.value)}}/>
-      <label>Price</label>
-      <input onChange={(event) => {handleChange('price', event.target.value)}}/>
-      <label>Description</label>
-      <input onChange={(event) => {handleChange('description', event.target.value)}}/>
-      <form method="dialog" id="modal-actions">
-        <button>Close</button>
-        <button onClick={() => onSave(product.id)}>Save</button>
-      </form>
+      <h2>{product.name}</h2>
+      <div className='user-input'>
+        <EditProduct product={product} onChange={onChange}/>
+        <form method="dialog" id="modal-actions">
+          <button>Close</button>
+          <button onClick={() => onSave(product)}>Save</button>
+        </form>
+      </div>
     </dialog>,
     document.getElementById('modal')
   );
